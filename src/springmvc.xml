@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:context="http://www.springframework.org/schema/context"
+      xmlns:mvc="http://www.springframework.org/schema/mvc"
+      xmlns:beans="http://www.springframework.org/schema/beans"
+      xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+          http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd ">
+         <!-- 配置自动扫描的包 -->
+         <context:component-scan base-package="com.neo."></context:component-scan>
+        
+         <!-- 配置视图解析器 如何把handler 方法返回值解析为实际的物理视图 -->
+         <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+             <property name = "prefix" value="/WEB-INF/views/"></property>
+             <property name = "suffix" value = ".jsp"></property>
+         </bean>
+          <!-- Enables the Spring MVC @Controller programming model -->
+         <mvc:annotation-driven />
+
+		 <!--  this is for ipk download  -->
+         <!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+         <mvc:resources mapping="/package/**" location="/package/" />
+         
+         <!-- upload files -->
+  		<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+  			 <!-- maxUploadSize:文件上传的最大值以byte为单位 -->
+   			 <property name="defaultEncoding" value="UTF-8"/>  
+ 		 </bean>
+         <!-- support for Autowired annotation -->
+         <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
+         
+         <!-- dataSource database connector pool -->
+         <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+         	  <property name="driverClassName" value="com.mysql.jdbc.Driver" ></property>
+         	  <property name="password" value="macnie" ></property>
+         	  <property name="url" value="jdbc:mysql://localhost:3306/db_wis_user" ></property>
+         	  <property name="username" value="root" > </property>
+         </bean>
+         <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+         	  <property name="dataSource" ref="dataSource" />
+         </bean>        
+</beans>
